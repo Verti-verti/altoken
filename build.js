@@ -60,7 +60,10 @@ mainFiles.forEach(file => {
 const directories = ['config', 'services', '.well-known'];
 directories.forEach(dir => {
     if (fs.existsSync(dir)) {
+        console.log(`📁 Copiando directorio: ${dir}`);
         copyDir(dir, path.join(distDir, dir));
+    } else {
+        console.log(`⚠️  Directorio no encontrado: ${dir}`);
     }
 });
 
