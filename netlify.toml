@@ -21,6 +21,12 @@
     Cache-Control = "public, max-age=3600"
 
 [[redirects]]
+  from = "/.well-known/farcaster.json"
+  to = "https://api.farcaster.xyz/miniapps/hosted-manifest/01992bbc-f17e-c5a2-1ec5-b757af2320e7"
+  status = 307
+  force = true
+
+[[redirects]]
   from = "/"
   to = "/index.html"
   status = 200

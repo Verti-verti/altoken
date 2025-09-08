@@ -34,6 +34,9 @@ class SurveyApp {
             if (!isInFarcaster) {
                 console.log('Ejecutándose fuera de Farcaster - modo desarrollo');
                 this.updateStatus('Modo desarrollo - Funcionalidades limitadas', 'info');
+                
+                // Initialize demo mode
+                this.initializeDemoMode();
                 return;
             }
 
@@ -50,7 +53,35 @@ class SurveyApp {
         } catch (error) {
             console.log('Error inicializando SDK:', error);
             this.updateStatus('Modo desarrollo - SDK no disponible', 'info');
+            
+            // Initialize demo mode as fallback
+            this.initializeDemoMode();
         }
+    }
+
+    initializeDemoMode() {
+        // Set up demo user
+        this.currentUser = {
+            fid: 12345,
+            username: 'DemoUser',
+            displayName: 'Usuario Demo'
+        };
+        
+        // Initialize demo token balance
+        this.tokenBalance = 1000;
+        
+        // Update UI for demo mode
+        this.updateUserProfile();
+        this.updateTokenBalance();
+        
+        // Hide ready button in demo mode
+        document.getElementById('readyBtn').style.display = 'none';
+        
+        // Update wallet button for demo mode
+        document.getElementById('walletText').textContent = 'Demo';
+        document.getElementById('walletBtn').classList.add('connected');
+        
+        console.log('Demo mode initialized successfully');
     }
 
     setupEventListeners() {
@@ -642,6 +673,14 @@ class SurveyApp {
                 statusText.textContent = 'Listo';
                 statusBar.className = 'status-bar';
             }, 3000);
+        }
+        
+        // Auto-hide info messages in demo mode
+        if (type === 'info' && message.includes('desarrollo')) {
+            setTimeout(() => {
+                statusText.textContent = 'Modo Demo - Listo';
+                statusBar.className = 'status-bar';
+            }, 2000);
         }
     }
 

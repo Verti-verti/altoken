@@ -11,11 +11,15 @@
       "use": "@vercel/static"
     }
   ],
-  "routes": [
+  "redirects": [
     {
-      "src": "/.well-known/farcaster.json",
-      "dest": "/.well-known/farcaster.json"
-    },
+      "source": "/.well-known/farcaster.json",
+      "destination": "https://api.farcaster.xyz/miniapps/hosted-manifest/01992bbc-f17e-c5a2-1ec5-b757af2320e7",
+      "permanent": false,
+      "statusCode": 307
+    }
+  ],
+  "routes": [
     {
       "src": "/(.*)",
       "dest": "/index.html"
