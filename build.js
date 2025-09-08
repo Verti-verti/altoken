@@ -46,7 +46,8 @@ const mainFiles = [
     'app.js',
     'ai-config.html',
     'test-survey-generation.html',
-    'package.json'
+    'package.json',
+    'icon.svg'
 ];
 
 // Copiar archivos principales
