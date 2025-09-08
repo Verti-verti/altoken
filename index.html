@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Altoken - Encuestas Tokenizadas</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header con Wallet y Tokens -->
+        <header class="app-header">
+            <div class="header-content">
+                <div class="logo">
+                    <span class="logo-icon">🪙</span>
+                    <span class="logo-text">Altoken</span>
+                </div>
+                <div class="header-actions">
+                    <div class="token-balance" id="tokenBalance">
+                        <span class="token-icon">🪙</span>
+                        <span id="balanceAmount">0</span>
+                        <span class="token-symbol">ALTK</span>
+                    </div>
+                    <button class="wallet-btn" id="walletBtn">
+                        <span class="wallet-icon">👛</span>
+                        <span id="walletText">Conectar</span>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Navigation Tabs -->
+        <nav class="nav-tabs">
+            <button class="nav-tab active" data-tab="surveys">
+                <span class="tab-icon">📋</span>
+                <span>Encuestas</span>
+            </button>
+            <button class="nav-tab" data-tab="create">
+                <span class="tab-icon">✨</span>
+                <span>Crear</span>
+            </button>
+            <button class="nav-tab" data-tab="leaderboard">
+                <span class="tab-icon">🏆</span>
+                <span>Ranking</span>
+            </button>
+            <button class="nav-tab" data-tab="profile">
+                <span class="tab-icon">👤</span>
+                <span>Perfil</span>
+            </button>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Tab: Surveys -->
+            <div class="tab-content active" id="surveys-tab">
+                <div class="section-header">
+                    <h2>Encuestas Activas</h2>
+                    <div class="ai-generator">
+                        <button class="ai-btn" id="aiGenerateBtn">
+                            <span class="ai-icon">🤖</span>
+                            <span>IA Generar</span>
+                        </button>
+                        <button class="ai-btn" id="aiConfigBtn" style="background: var(--gradient-secondary);">
+                            <span class="ai-icon">⚙️</span>
+                            <span>Config IA</span>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="surveys-grid" id="surveysGrid">
+                    <!-- Las encuestas se cargarán dinámicamente -->
+                </div>
+            </div>
+
+            <!-- Tab: Create Survey -->
+            <div class="tab-content" id="create-tab">
+                <div class="create-survey">
+                    <h2>Crear Nueva Encuesta</h2>
+                    <div class="create-options">
+                        <button class="create-option" id="manualCreate">
+                            <span class="option-icon">✏️</span>
+                            <span>Crear Manual</span>
+                        </button>
+                        <button class="create-option" id="aiCreate">
+                            <span class="option-icon">🤖</span>
+                            <span>IA Asistida</span>
+                        </button>
+                    </div>
+                    
+                    <div class="survey-form" id="surveyForm" style="display: none;">
+                        <input type="text" id="surveyTitle" placeholder="Título de la encuesta" class="form-input">
+                        <textarea id="surveyDescription" placeholder="Descripción" class="form-textarea"></textarea>
+                        <div class="options-container" id="optionsContainer">
+                            <input type="text" placeholder="Opción 1" class="form-input option-input">
+                            <input type="text" placeholder="Opción 2" class="form-input option-input">
+                        </div>
+                        <button class="add-option-btn" id="addOptionBtn">+ Añadir Opción</button>
+                        <div class="reward-settings">
+                            <label>Recompensa por voto:</label>
+                            <input type="number" id="voteReward" value="10" class="form-input">
+                            <span class="token-symbol">ALTK</span>
+                        </div>
+                        <button class="btn primary" id="publishSurveyBtn">Publicar Encuesta</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab: Leaderboard -->
+            <div class="tab-content" id="leaderboard-tab">
+                <div class="leaderboard">
+                    <h2>🏆 Ranking de Usuarios</h2>
+                    <div class="leaderboard-filters">
+                        <button class="filter-btn active" data-filter="all">Todos</button>
+                        <button class="filter-btn" data-filter="creators">Creadores</button>
+                        <button class="filter-btn" data-filter="voters">Votantes</button>
+                    </div>
+                    <div class="leaderboard-list" id="leaderboardList">
+                        <!-- El ranking se cargará dinámicamente -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab: Profile -->
+            <div class="tab-content" id="profile-tab">
+                <div class="profile">
+                    <div class="profile-header">
+                        <div class="profile-avatar" id="profileAvatar">👤</div>
+                        <div class="profile-info">
+                            <h3 id="profileName">Usuario</h3>
+                            <p id="profileFid">FID: --</p>
+                        </div>
+                    </div>
+                    
+                    <div class="profile-stats">
+                        <div class="stat-card">
+                            <span class="stat-value" id="surveysCreated">0</span>
+                            <span class="stat-label">Encuestas Creadas</span>
+                        </div>
+                        <div class="stat-card">
+                            <span class="stat-value" id="votesCast">0</span>
+                            <span class="stat-label">Votos Emitidos</span>
+                        </div>
+                        <div class="stat-card">
+                            <span class="stat-value" id="tokensEarned">0</span>
+                            <span class="stat-label">Tokens Ganados</span>
+                        </div>
+                    </div>
+                    
+                    <div class="profile-actions">
+                        <button class="btn secondary" id="claimRewardsBtn">Reclamar Recompensas</button>
+                        <button class="btn secondary" id="viewHistoryBtn">Ver Historial</button>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Floating Action Button -->
+        <button class="fab" id="fabBtn">
+            <span class="fab-icon">+</span>
+        </button>
+
+        <!-- Status Bar -->
+        <div class="status-bar" id="statusBar">
+            <div class="status-content">
+                <span id="statusText">Conectando...</span>
+                <button class="status-btn" id="readyBtn" style="display: none;">Listo</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modals -->
+    <div class="modal" id="surveyModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalTitle">Encuesta</h3>
+                <button class="modal-close" id="modalClose">&times;</button>
+            </div>
+            <div class="modal-body" id="modalBody">
+                <!-- Contenido dinámico -->
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="app.js"></script>
+</body>
+</html>

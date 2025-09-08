@@ -1,0 +1,26 @@
+{
+  "name": "altoken-app",
+  "version": "1.0.0",
+  "description": "Altoken - Tokenized Survey App with AI and Gamification",
+  "main": "index.html",
+  "scripts": {
+    "dev": "npx serve .",
+    "start": "npx serve .",
+    "build": "node build.js",
+    "preview": "npx serve dist",
+    "deploy": "node deploy.js"
+  },
+  "dependencies": {
+    "@farcaster/miniapp-sdk": "^0.1.10",
+    "ethers": "^6.8.0",
+    "viem": "^1.19.0"
+  },
+  "devDependencies": {
+    "serve": "^14.2.2",
+    "@vitejs/plugin-react": "^4.0.0",
+    "vite": "^4.4.0"
+  },
+  "keywords": ["farcaster", "mini-app", "web3", "surveys", "ai", "gamification", "base", "altoken"],
+  "author": "",
+  "license": "MIT"
+}

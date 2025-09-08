@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Probar Generación de Encuestas - Altoken</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .test-container {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 2rem;
+        }
+        
+        .test-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .test-card h2 {
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+        }
+        
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin: 0.5rem;
+        }
+        
+        .btn.primary {
+            background: var(--gradient-primary);
+            color: white;
+        }
+        
+        .btn.primary:hover {
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+        
+        .status-message {
+            padding: 0.75rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+            font-weight: 500;
+        }
+        
+        .status-success {
+            background: #f0fff4;
+            color: #38a169;
+            border: 1px solid #9ae6b4;
+        }
+        
+        .status-error {
+            background: #fed7d7;
+            color: #e53e3e;
+            border: 1px solid #feb2b2;
+        }
+        
+        .status-info {
+            background: #ebf8ff;
+            color: #3182ce;
+            border: 1px solid #90cdf4;
+        }
+        
+        .survey-result {
+            background: var(--surface-light);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+            font-family: monospace;
+            font-size: 0.9rem;
+            white-space: pre-wrap;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 600;
+            margin-bottom: 2rem;
+        }
+        
+        .back-btn:hover {
+            color: var(--primary-dark);
+        }
+        
+        .config-status {
+            background: var(--surface-light);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .config-status h3 {
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+        
+        .config-status p {
+            color: var(--text-secondary);
+            margin: 0.25rem 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <a href="index.html" class="back-btn">
+            ← Volver a Altoken
+        </a>
+        
+        <div class="test-card">
+            <h2>🧪 Probar Generación de Encuestas</h2>
+            <p style="color: var(--text-secondary); margin-bottom: 2rem;">
+                Esta página te permite probar la generación de encuestas con IA y ver los logs detallados.
+            </p>
+            
+            <div class="config-status" id="configStatus">
+                <h3>Estado de la Configuración</h3>
+                <p id="configInfo">Cargando...</p>
+            </div>
+            
+            <button class="btn primary" id="testSingleSurvey">
+                <span>📊</span>
+                <span>Generar Una Encuesta</span>
+            </button>
+            
+            <button class="btn primary" id="testMultipleSurveys">
+                <span>📋</span>
+                <span>Generar Múltiples Encuestas</span>
+            </button>
+            
+            <button class="btn primary" id="testSpecificTopic">
+                <span>🎯</span>
+                <span>Generar sobre "Bitcoin"</span>
+            </button>
+            
+            <div id="statusMessage"></div>
+            
+            <div id="surveyResult" class="survey-result" style="display: none;">
+                <h3>Resultado:</h3>
+                <div id="surveyContent"></div>
+            </div>
+        </div>
+    </div>
+    
+    <script type="module">
+        import { aiConfig, getAIConfig, isAIConfigured } from './config/ai-config.js';
+        import { aiService } from './services/aiService.js';
+        
+        const testSingleSurvey = document.getElementById('testSingleSurvey');
+        const testMultipleSurveys = document.getElementById('testMultipleSurveys');
+        const testSpecificTopic = document.getElementById('testSpecificTopic');
+        const statusMessage = document.getElementById('statusMessage');
+        const surveyResult = document.getElementById('surveyResult');
+        const surveyContent = document.getElementById('surveyContent');
+        const configInfo = document.getElementById('configInfo');
+        
+        // Cargar estado de configuración
+        function loadConfigStatus() {
+            const status = aiConfig.getStatus();
+            const config = getAIConfig();
+            
+            let statusText = '';
+            if (status.isConfigured) {
+                statusText = `✅ IA Configurada - Proveedor: ${config.provider}`;
+            } else {
+                statusText = '❌ IA No Configurada';
+            }
+            
+            configInfo.textContent = statusText;
+        }
+        
+        // Mostrar mensaje de estado
+        function showMessage(message, type) {
+            statusMessage.innerHTML = `<div class="status-message status-${type}">${message}</div>`;
+        }
+        
+        // Mostrar resultado de encuesta
+        function showSurveyResult(surveys) {
+            surveyContent.textContent = JSON.stringify(surveys, null, 2);
+            surveyResult.style.display = 'block';
+        }
+        
+        // Generar una encuesta
+        testSingleSurvey.addEventListener('click', async () => {
+            testSingleSurvey.disabled = true;
+            testSingleSurvey.textContent = 'Generando...';
+            
+            try {
+                showMessage('Generando encuesta individual...', 'info');
+                
+                const survey = await aiService.generateSingleSurvey();
+                
+                if (survey) {
+                    showMessage('✅ Encuesta generada exitosamente!', 'success');
+                    showSurveyResult(survey);
+                } else {
+                    showMessage('❌ No se pudo generar la encuesta', 'error');
+                }
+                
+            } catch (error) {
+                showMessage(`❌ Error: ${error.message}`, 'error');
+                console.error('Error generando encuesta:', error);
+            } finally {
+                testSingleSurvey.disabled = false;
+                testSingleSurvey.textContent = '📊 Generar Una Encuesta';
+            }
+        });
+        
+        // Generar múltiples encuestas
+        testMultipleSurveys.addEventListener('click', async () => {
+            testMultipleSurveys.disabled = true;
+            testMultipleSurveys.textContent = 'Generando...';
+            
+            try {
+                showMessage('Generando múltiples encuestas...', 'info');
+                
+                const surveys = await aiService.generateSurveys(null, 2);
+                
+                if (surveys && surveys.length > 0) {
+                    showMessage(`✅ Se generaron ${surveys.length} encuestas!`, 'success');
+                    showSurveyResult(surveys);
+                } else {
+                    showMessage('❌ No se pudieron generar las encuestas', 'error');
+                }
+                
+            } catch (error) {
+                showMessage(`❌ Error: ${error.message}`, 'error');
+                console.error('Error generando encuestas:', error);
+            } finally {
+                testMultipleSurveys.disabled = false;
+                testMultipleSurveys.textContent = '📋 Generar Múltiples Encuestas';
+            }
+        });
+        
+        // Generar encuesta sobre tema específico
+        testSpecificTopic.addEventListener('click', async () => {
+            testSpecificTopic.disabled = true;
+            testSpecificTopic.textContent = 'Generando...';
+            
+            try {
+                showMessage('Generando encuesta sobre Bitcoin...', 'info');
+                
+                const survey = await aiService.generateSingleSurvey('Bitcoin');
+                
+                if (survey) {
+                    showMessage('✅ Encuesta sobre Bitcoin generada!', 'success');
+                    showSurveyResult(survey);
+                } else {
+                    showMessage('❌ No se pudo generar la encuesta sobre Bitcoin', 'error');
+                }
+                
+            } catch (error) {
+                showMessage(`❌ Error: ${error.message}`, 'error');
+                console.error('Error generando encuesta sobre Bitcoin:', error);
+            } finally {
+                testSpecificTopic.disabled = false;
+                testSpecificTopic.textContent = '🎯 Generar sobre "Bitcoin"';
+            }
+        });
+        
+        // Cargar estado inicial
+        loadConfigStatus();
+    </script>
+</body>
+</html>

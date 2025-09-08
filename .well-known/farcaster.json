@@ -1,0 +1,21 @@
+{
+  "name": "Altoken",
+  "description": "Tokenized Survey App with AI and Gamification - Create, vote, and earn ALTK tokens through engaging surveys powered by AI",
+  "icon": "https://altoken-demo.vercel.app/icon.png",
+  "homeUrl": "https://altoken-demo.vercel.app",
+  "tags": [
+    "surveys",
+    "tokens",
+    "ai",
+    "gamification",
+    "web3",
+    "polls"
+  ],
+  "primaryCategory": "social",
+  "version": "1.0.0",
+  "accountAssociation": {
+    "accountAssociation": "0x...",
+    "signature": "0x...",
+    "timestamp": 0
+  }
+}

@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Configuración de IA - Altoken</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .config-container {
+            max-width: 600px;
+            margin: 2rem auto;
+            padding: 2rem;
+        }
+        
+        .config-section {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .config-section h2 {
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .provider-card {
+            background: var(--surface-light);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .provider-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .provider-name {
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+        
+        .provider-status {
+            padding: 0.25rem 0.75rem;
+            border-radius: 8px;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+        
+        .status-configured {
+            background: var(--gradient-secondary);
+            color: white;
+        }
+        
+        .status-not-configured {
+            background: var(--surface);
+            color: var(--text-muted);
+            border: 1px solid var(--border);
+        }
+        
+        .api-key-input {
+            width: 100%;
+            padding: 0.75rem;
+            background: var(--background);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: var(--text-primary);
+            font-family: monospace;
+            margin-bottom: 1rem;
+        }
+        
+        .api-key-input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+        
+        .config-actions {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        
+        .test-btn {
+            background: var(--gradient-accent);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .test-btn:hover {
+            transform: translateY(-1px);
+        }
+        
+        .test-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+        
+        .save-btn {
+            background: var(--gradient-primary);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .save-btn:hover {
+            transform: translateY(-1px);
+        }
+        
+        .status-message {
+            padding: 0.75rem;
+            border-radius: 8px;
+            margin-top: 1rem;
+            font-weight: 500;
+        }
+        
+        .status-success {
+            background: #f0fff4;
+            color: #38a169;
+            border: 1px solid #9ae6b4;
+        }
+        
+        .status-error {
+            background: #fed7d7;
+            color: #e53e3e;
+            border: 1px solid #feb2b2;
+        }
+        
+        .status-info {
+            background: #ebf8ff;
+            color: #3182ce;
+            border: 1px solid #90cdf4;
+        }
+        
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 600;
+            margin-bottom: 2rem;
+        }
+        
+        .back-btn:hover {
+            color: var(--primary-dark);
+        }
+        
+        .instructions {
+            background: var(--surface-light);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .instructions h3 {
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+        }
+        
+        .instructions ol {
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+        
+        .instructions li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .instructions a {
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+        
+        .instructions a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="config-container">
+        <a href="index.html" class="back-btn">
+            ← Volver a Altoken
+        </a>
+        
+        <h1>🤖 Configuración de IA</h1>
+        
+        <div class="instructions">
+            <h3>📋 Instrucciones</h3>
+            <ol>
+                <li><strong>OpenAI:</strong> Ve a <a href="https://platform.openai.com/api-keys" target="_blank">platform.openai.com/api-keys</a> y crea una nueva API key</li>
+                <li><strong>Grok (X):</strong> Ve a <a href="https://console.x.ai/" target="_blank">console.x.ai</a> y obtén tu API key</li>
+                <li><strong>Google AI:</strong> Ve a <a href="https://makersuite.google.com/app/apikey" target="_blank">makersuite.google.com/app/apikey</a> y crea una API key</li>
+                <li>Pega tu API key en el campo correspondiente</li>
+                <li>Haz clic en "Probar" para verificar que funciona</li>
+                <li>Guarda la configuración</li>
+            </ol>
+        </div>
+        
+        <div class="config-section">
+            <h2>🔧 Configuración de Proveedores</h2>
+            
+            <div class="provider-card">
+                <div class="provider-header">
+                    <span class="provider-name">OpenAI GPT-4</span>
+                    <span class="provider-status" id="openai-status">No configurado</span>
+                </div>
+                <input 
+                    type="password" 
+                    id="openai-key" 
+                    class="api-key-input" 
+                    placeholder="sk-..."
+                >
+                <div class="config-actions">
+                    <button class="test-btn" id="test-openai">Probar</button>
+                    <button class="save-btn" id="save-openai">Guardar</button>
+                </div>
+                <div id="openai-message"></div>
+            </div>
+            
+            <div class="provider-card">
+                <div class="provider-header">
+                    <span class="provider-name">Grok (X/Twitter)</span>
+                    <span class="provider-status" id="grok-status">No configurado</span>
+                </div>
+                <input 
+                    type="password" 
+                    id="grok-key" 
+                    class="api-key-input" 
+                    placeholder="xai-..."
+                >
+                <div class="config-actions">
+                    <button class="test-btn" id="test-grok">Probar</button>
+                    <button class="save-btn" id="save-grok">Guardar</button>
+                </div>
+                <div id="grok-message"></div>
+            </div>
+            
+            <div class="provider-card">
+                <div class="provider-header">
+                    <span class="provider-name">Google AI (Gemini)</span>
+                    <span class="provider-status" id="google-status">No configurado</span>
+                </div>
+                <input 
+                    type="password" 
+                    id="google-key" 
+                    class="api-key-input" 
+                    placeholder="AIzaSy..."
+                >
+                <div class="config-actions">
+                    <button class="test-btn" id="test-google">Probar</button>
+                    <button class="save-btn" id="save-google">Guardar</button>
+                </div>
+                <div id="google-message"></div>
+            </div>
+        </div>
+        
+        <div class="config-section">
+            <h2>⚙️ Configuración General</h2>
+            <div class="provider-card">
+                <label style="color: var(--text-primary); font-weight: 600; display: block; margin-bottom: 1rem;">
+                    Proveedor por defecto:
+                </label>
+                <select id="default-provider" style="width: 100%; padding: 0.75rem; background: var(--surface-light); border: 1px solid var(--border); border-radius: 8px; color: var(--text-primary);">
+                    <option value="openai">OpenAI GPT-4</option>
+                    <option value="grok">Grok (X/Twitter)</option>
+                    <option value="google">Google AI (Gemini)</option>
+                </select>
+                <button class="save-btn" id="save-default" style="margin-top: 1rem;">Guardar Preferencia</button>
+            </div>
+        </div>
+        
+        <div class="config-section">
+            <h2>🧹 Mantenimiento</h2>
+            <div class="provider-card">
+                <p style="color: var(--text-secondary); margin-bottom: 1rem;">
+                    Limpiar toda la configuración de IA (esto eliminará todas las API keys guardadas)
+                </p>
+                <button classytest-btn" id="clear-config" style="background: var(--danger-color);">Limpiar Configuración</button>
+            </div>
+        </div>
+    </div>
+    
+    <script type="module">
+        import { aiConfig, validateAIKey } from './config/ai-config.js';
+        
+        // Elementos del DOM
+        const openaiKeyInput = document.getElementById('openai-key');
+        const grokKeyInput = document.getElementById('grok-key');
+        const googleKeyInput = document.getElementById('google-key');
+        const openaiStatus = document.getElementById('openai-status');
+        const grokStatus = document.getElementById('grok-status');
+        const googleStatus = document.getElementById('google-status');
+        const openaiMessage = document.getElementById('openai-message');
+        const grokMessage = document.getElementById('grok-message');
+        const googleMessage = document.getElementById('google-message');
+        const defaultProviderSelect = document.getElementById('default-provider');
+        
+        // Botones
+        const testOpenAI = document.getElementById('test-openai');
+        const saveOpenAI = document.getElementById('save-openai');
+        const testGrok = document.getElementById('test-grok');
+        const saveGrok = document.getElementById('save-grok');
+        const testGoogle = document.getElementById('test-google');
+        const saveGoogle = document.getElementById('save-google');
+        const saveDefault = document.getElementById('save-default');
+        const clearConfig = document.getElementById('clear-config');
+        
+        // Cargar configuración actual
+        function loadCurrentConfig() {
+            const status = aiConfig.getStatus();
+            
+            // Cargar API keys (mostrar solo los primeros y últimos caracteres)
+            const openaiKey = aiConfig.getAPIKey('openai');
+            const grokKey = aiConfig.getAPIKey('grok');
+            const googleKey = aiConfig.getAPIKey('google');
+            
+            if (openaiKey) {
+                openaiKeyInput.value = openaiKey;
+                openaiStatus.textContent = 'Configurado';
+                openaiStatus.className = 'provider-status status-configured';
+            }
+            
+            if (grokKey) {
+                grokKeyInput.value = grokKey;
+                grokStatus.textContent = 'Configurado';
+                grokStatus.className = 'provider-status status-configured';
+            }
+            
+            if (googleKey) {
+                googleKeyInput.value = googleKey;
+                googleStatus.textContent = 'Configurado';
+                googleStatus.className = 'provider-status status-configured';
+            }
+            
+            // Configurar proveedor por defecto
+            defaultProviderSelect.value = status.currentProvider;
+        }
+        
+        // Mostrar mensaje de estado
+        function showMessage(element, message, type) {
+            element.innerHTML = `<div class="status-message status-${type}">${message}</div>`;
+            setTimeout(() => {
+                element.innerHTML = '';
+            }, 5000);
+        }
+        
+        // Probar API key de OpenAI
+        testOpenAI.addEventListener('click', async () => {
+            const apiKey = openaiKeyInput.value.trim();
+            if (!apiKey) {
+                showMessage(openaiMessage, 'Por favor ingresa una API key', 'error');
+                return;
+            }
+            
+            testOpenAI.disabled = true;
+            testOpenAI.textContent = 'Probando...';
+            
+            try {
+                const result = await validateAIKey('openai', apiKey);
+                if (result.valid) {
+                    showMessage(openaiMessage, '✅ API key válida!', 'success');
+                } else {
+                    showMessage(openaiMessage, `❌ Error: ${result.error}`, 'error');
+                }
+            } catch (error) {
+                showMessage(openaiMessage, `❌ Error: ${error.message}`, 'error');
+            } finally {
+                testOpenAI.disabled = false;
+                testOpenAI.textContent = 'Probar';
+            }
+        });
+        
+        // Probar API key de Grok
+        testGrok.addEventListener('click', async () => {
+            const apiKey = grokKeyInput.value.trim();
+            if (!apiKey) {
+                showMessage(grokMessage, 'Por favor ingresa una API key', 'error');
+                return;
+            }
+            
+            testGrok.disabled = true;
+            testGrok.textContent = 'Probando...';
+            
+            try {
+                const result = await validateAIKey('grok', apiKey);
+                if (result.valid) {
+                    showMessage(grokMessage, '✅ API key válida!', 'success');
+                } else {
+                    showMessage(grokMessage, `❌ Error: ${result.error}`, 'error');
+                }
+            } catch (error) {
+                showMessage(grokMessage, `❌ Error: ${error.message}`, 'error');
+            } finally {
+                testGrok.disabled = false;
+                testGrok.textContent = 'Probar';
+            }
+        });
+        
+        // Guardar API key de OpenAI
+        saveOpenAI.addEventListener('click', () => {
+            const apiKey = openaiKeyInput.value.trim();
+            if (!apiKey) {
+                showMessage(openaiMessage, 'Por favor ingresa una API key', 'error');
+                return;
+            }
+            
+            aiConfig.setAPIKey('openai', apiKey);
+            openaiStatus.textContent = 'Configurado';
+            openaiStatus.className = 'provider-status status-configured';
+            showMessage(openaiMessage, '✅ API key guardada!', 'success');
+        });
+        
+        // Guardar API key de Grok
+        saveGrok.addEventListener('click', () => {
+            const apiKey = grokKeyInput.value.trim();
+            if (!apiKey) {
+                showMessage(grokMessage, 'Por favor ingresa una API key', 'error');
+                return;
+            }
+            
+            aiConfig.setAPIKey('grok', apiKey);
+            grokStatus.textContent = 'Configurado';
+            grokStatus.className = 'provider-status status-configured';
+            showMessage(grokMessage, '✅ API key guardada!', 'success');
+        });
+        
+        // Probar API key de Google
+        testGoogle.addEventListener('click', async () => {
+            const apiKey = googleKeyInput.value.trim();
+            if (!apiKey) {
+                showMessage(googleMessage, 'Por favor ingresa una API key', 'error');
+                return;
+            }
+            
+            testGoogle.disabled = true;
+            testGoogle.textContent = 'Probando...';
+            
+            try {
+                const result = await validateAIKey('google', apiKey);
+                if (result.valid) {
+                    showMessage(googleMessage, '✅ API key válida!', 'success');
+                } else {
+                    showMessage(googleMessage, `❌ Error: ${result.error}`, 'error');
+                }
+            } catch (error) {
+                showMessage(googleMessage, `❌ Error: ${error.message}`, 'error');
+            } finally {
+                testGoogle.disabled = false;
+                testGoogle.textContent = 'Probar';
+            }
+        });
+        
+        // Guardar API key de Google
+        saveGoogle.addEventListener('click', () => {
+            const apiKey = googleKeyInput.value.trim();
+            if (!apiKey) {
+                showMessage(googleMessage, 'Por favor ingresa una API key', 'error');
+                return;
+            }
+            
+            aiConfig.setAPIKey('google', apiKey);
+            googleStatus.textContent = 'Configurado';
+            googleStatus.className = 'provider-status status-configured';
+            showMessage(googleMessage, '✅ API key guardada!', 'success');
+        });
+        
+        // Guardar proveedor por defecto
+        saveDefault.addEventListener('click', () => {
+            const provider = defaultProviderSelect.value;
+            aiConfig.setCurrentProvider(provider);
+            showMessage(openaiMessage, `✅ Proveedor por defecto cambiado a ${provider}`, 'success');
+        });
+        
+        // Limpiar configuración
+        clearConfig.addEventListener('click', () => {
+            if (confirm('¿Estás seguro de que quieres limpiar toda la configuración de IA?')) {
+                aiConfig.clearConfig();
+                loadCurrentConfig();
+                showMessage(openaiMessage, '✅ Configuración limpiada', 'success');
+            }
+        });
+        
+        // Cargar configuración al iniciar
+        loadCurrentConfig();
+    </script>
+</body>
+</html>
