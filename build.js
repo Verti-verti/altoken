@@ -70,7 +70,7 @@ mainFiles.forEach(file => {
 });
 
 // Copiar directorios
-const directories = ['config', 'services', '.well-known', 'api'];
+const directories = ['config', 'services', '.well-known', 'api', 'netlify'];
 directories.forEach(dir => {
     if (fs.existsSync(dir)) {
         console.log(`📁 Copiando directorio: ${dir}`);
