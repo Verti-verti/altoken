@@ -1,25 +1,40 @@
-// Farcaster Frame API endpoint
+// Farcaster Frame API endpoint for Netlify
 // Handles POST requests from frame button interactions
 
-export default async function handler(req, res) {
-    // Set CORS headers for Farcaster
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+exports.handler = async (event, context) => {
+    // Parse the request
+    const { httpMethod, body, headers } = event;
+    
+    // Set CORS headers
+    const corsHeaders = {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods': 'POST, GET, OPTIONS',
+        'Access-Control-Allow-Headers': 'Content-Type',
+        'Content-Type': 'application/json'
+    };
     
     // Handle preflight requests
-    if (req.method === 'OPTIONS') {
-        return res.status(200).end();
+    if (httpMethod === 'OPTIONS') {
+        return {
+            statusCode: 200,
+            headers: corsHeaders,
+            body: ''
+        };
     }
     
     // Only allow POST requests
-    if (req.method !== 'POST') {
-        return res.status(405).json({ error: 'Method not allowed' });
+    if (httpMethod !== 'POST') {
+        return {
+            statusCode: 405,
+            headers: corsHeaders,
+            body: JSON.stringify({ error: 'Method not allowed' })
+        };
     }
     
     try {
         // Parse the frame data from the request body
-        const { untrustedData, trustedData } = req.body;
+        const frameData = JSON.parse(body || '{}');
+        const { untrustedData, trustedData } = frameData;
         
         console.log('Frame interaction received:', {
             untrustedData,
@@ -54,7 +69,7 @@ export default async function handler(req, res) {
                 response = {
                     frame: {
                         version: "vNext",
-                        image: "https://altoken.netlify.app/surveys-image.png",
+                        image: "https://via.placeholder.com/1200x630/10b981/ffffff?text=View+Surveys",
                         buttons: [
                             { label: "Back", action: "post" },
                             { label: "Vote Now", action: "post" }
@@ -68,7 +83,7 @@ export default async function handler(req, res) {
                 response = {
                     frame: {
                         version: "vNext",
-                        image: "https://altoken.netlify.app/create-image.png",
+                        image: "https://via.placeholder.com/1200x630/f59e0b/ffffff?text=Create+Survey",
                         buttons: [
                             { label: "Back", action: "post" },
                             { label: "Generate AI Survey", action: "post" }
@@ -96,21 +111,29 @@ export default async function handler(req, res) {
         console.log(`Frame interaction: Button ${buttonIndex} clicked by user ${username} (FID: ${fid})`);
         
         // Return the frame response
-        return res.status(200).json(response);
+        return {
+            statusCode: 200,
+            headers: corsHeaders,
+            body: JSON.stringify(response)
+        };
         
     } catch (error) {
         console.error('Frame API error:', error);
         
         // Return error response
-        return res.status(500).json({
-            frame: {
-                version: "vNext",
-                image: "https://altoken.netlify.app/error-image.png",
-                buttons: [
-                    { label: "Try Again", action: "post" }
-                ],
-                post_url: "https://altoken.netlify.app/api/frame"
-            }
-        });
+        return {
+            statusCode: 500,
+            headers: corsHeaders,
+            body: JSON.stringify({
+                frame: {
+                    version: "vNext",
+                    image: "https://via.placeholder.com/1200x630/ef4444/ffffff?text=Error",
+                    buttons: [
+                        { label: "Try Again", action: "post" }
+                    ],
+                    post_url: "https://altoken.netlify.app/api/frame"
+                }
+            })
+        };
     }
-}
+};

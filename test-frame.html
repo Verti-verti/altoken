@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Frame Test</title>
+</head>
+<body>
+    <h1>Frame Image Test</h1>
+    
+    <h2>Placeholder Image Test:</h2>
+    <img src="https://via.placeholder.com/1200x630/6366f1/ffffff?text=Altoken+Frame" alt="Frame Image" style="max-width: 600px; border: 1px solid #ccc;">
+    
+    <h2>API Test:</h2>
+    <button onclick="testAPI()">Test API Endpoint</button>
+    <div id="apiResult"></div>
+    
+    <script>
+        async function testAPI() {
+            const resultDiv = document.getElementById('apiResult');
+            resultDiv.innerHTML = 'Testing API...';
+            
+            try {
+                const response = await fetch('https://altoken.netlify.app/api/frame', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        untrustedData: {
+                            buttonIndex: 1,
+                            fid: 12345,
+                            username: 'testuser'
+                        }
+                    })
+                });
+                
+                const data = await response.json();
+                resultDiv.innerHTML = `
+                    <h3>API Response:</h3>
+                    <pre>${JSON.stringify(data, null, 2)}</pre>
+                    <p>Status: ${response.status}</p>
+                `;
+            } catch (error) {
+                resultDiv.innerHTML = `<p style="color: red;">Error: ${error.message}</p>`;
+            }
+        }
+    </script>
+</body>
+</html>
