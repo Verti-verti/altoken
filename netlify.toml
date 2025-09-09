@@ -20,6 +20,14 @@
     Access-Control-Allow-Origin = "*"
     Cache-Control = "public, max-age=3600"
 
+[[headers]]
+  for = "/api/*"
+  [headers.values]
+    Content-Type = "application/json"
+    Access-Control-Allow-Origin = "*"
+    Access-Control-Allow-Methods = "POST, GET, OPTIONS"
+    Access-Control-Allow-Headers = "Content-Type"
+
 # Serve local manifest with correct account association
 # [[redirects]]
 #   from = "/.well-known/farcaster.json"

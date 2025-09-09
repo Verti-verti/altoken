@@ -12,16 +12,26 @@
     "update-manifest": "node update-manifest.js"
   },
   "dependencies": {
+    "@farcaster/frame-sdk": "^0.1.10",
     "@farcaster/miniapp-sdk": "^0.1.10",
     "ethers": "^6.8.0",
     "viem": "^1.19.0"
   },
   "devDependencies": {
-    "serve": "^14.2.2",
     "@vitejs/plugin-react": "^4.0.0",
+    "serve": "^14.2.2",
     "vite": "^4.4.0"
   },
-  "keywords": ["farcaster", "mini-app", "web3", "surveys", "ai", "gamification", "base", "altoken"],
+  "keywords": [
+    "farcaster",
+    "mini-app",
+    "web3",
+    "surveys",
+    "ai",
+    "gamification",
+    "base",
+    "altoken"
+  ],
   "author": "",
   "license": "MIT"
 }

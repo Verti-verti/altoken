@@ -1,4 +1,5 @@
 import { sdk } from '@farcaster/miniapp-sdk';
+import { action } from '@farcaster/frame-sdk';
 import { aiConfig, getAIConfig, isAIConfigured } from './config/ai-config.js';
 import { aiService } from './services/aiService.js';
 
@@ -17,6 +18,13 @@ class SurveyApp {
 
     async init() {
         try {
+            // Wait for frame to be ready before triggering ui updates or actions
+            await action.ready().then(() => {
+                console.log('Frame is ready - enabling UI interactions');
+                // Enable buttons, show content, etc.
+                this.enableFrameInteractions();
+            });
+            
             await this.initializeSDK();
             this.setupEventListeners();
             this.loadInitialData();
@@ -25,6 +33,24 @@ class SurveyApp {
             console.error('Error inicializando app:', error);
             this.updateStatus(`Error: ${error.message}`, 'error');
         }
+    }
+
+    enableFrameInteractions() {
+        // Enable frame-specific interactions
+        console.log('Frame interactions enabled');
+        
+        // Enable buttons that should work in frame context
+        const frameButtons = document.querySelectorAll('.frame-enabled');
+        frameButtons.forEach(button => {
+            button.disabled = false;
+            button.classList.add('frame-ready');
+        });
+        
+        // Show frame-specific content
+        const frameContent = document.querySelectorAll('.frame-content');
+        frameContent.forEach(content => {
+            content.style.display = 'block';
+        });
     }
 
     async initializeSDK() {

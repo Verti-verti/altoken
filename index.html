@@ -7,14 +7,9 @@
     
     <!-- Farcaster Frame Meta Tags -->
     <meta property="fc:frame" content="vNext" />
-    <meta property="fc:frame:image" content="https://altoken.netlify.app/icon.png" />
-    <meta property="fc:frame:image:aspect_ratio" content="1.91:1" />
-    <meta property="fc:frame:button:1" content="Ver Encuestas" />
-    <meta property="fc:frame:button:1:action" content="link" />
-    <meta property="fc:frame:button:1:target" content="https://altoken.netlify.app" />
-    <meta property="fc:frame:button:2" content="Crear Encuesta" />
-    <meta property="fc:frame:button:2:action" content="link" />
-    <meta property="fc:frame:button:2:target" content="https://altoken.netlify.app" />
+    <meta property="fc:frame:image" content="https://altoken.netlify.app/next-image.png" />
+    <meta property="fc:frame:button:1" content="Refresh" />
+    <meta property="fc:frame:button:1:action" content="post" />
     <meta property="fc:frame:post_url" content="https://altoken.netlify.app/api/frame" />
     
     <!-- Open Graph Meta Tags for better sharing -->
@@ -48,7 +43,7 @@
                         <span id="balanceAmount">0</span>
                         <span class="token-symbol">ALTK</span>
                     </div>
-                    <button class="wallet-btn" id="walletBtn">
+                    <button class="wallet-btn frame-enabled" id="walletBtn">
                         <span class="wallet-icon">👛</span>
                         <span id="walletText">Conectar</span>
                     </button>
@@ -83,11 +78,11 @@
                 <div class="section-header">
                     <h2>Encuestas Activas</h2>
                     <div class="ai-generator">
-                        <button class="ai-btn" id="aiGenerateBtn">
+                        <button class="ai-btn frame-enabled" id="aiGenerateBtn">
                             <span class="ai-icon">🤖</span>
                             <span>IA Generar</span>
                         </button>
-                        <button class="ai-btn" id="aiConfigBtn" style="background: var(--gradient-secondary);">
+                        <button class="ai-btn frame-enabled" id="aiConfigBtn" style="background: var(--gradient-secondary);">
                             <span class="ai-icon">⚙️</span>
                             <span>Config IA</span>
                         </button>

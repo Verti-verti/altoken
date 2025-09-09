@@ -58,7 +58,7 @@ mainFiles.forEach(file => {
 });
 
 // Copiar directorios
-const directories = ['config', 'services', '.well-known'];
+const directories = ['config', 'services', '.well-known', 'api'];
 directories.forEach(dir => {
     if (fs.existsSync(dir)) {
         console.log(`📁 Copiando directorio: ${dir}`);
