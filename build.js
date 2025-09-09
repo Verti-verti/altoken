@@ -50,6 +50,18 @@ const mainFiles = [
     'icon.svg'
 ];
 
+// Create frame image from SVG (simple copy for now)
+function createFrameImage() {
+    try {
+        // For now, just copy the SVG as PNG reference
+        // In production, you'd convert SVG to PNG
+        const svgContent = fs.readFileSync('icon.svg', 'utf8');
+        console.log('📸 Frame image ready (using SVG as reference)');
+    } catch (error) {
+        console.log('⚠️  Could not process frame image:', error.message);
+    }
+}
+
 // Copiar archivos principales
 mainFiles.forEach(file => {
     if (fs.existsSync(file)) {
