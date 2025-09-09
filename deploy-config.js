@@ -6,8 +6,8 @@ const deployConfig = {
     appVersion: "1.0.0",
     
     // URLs de producción (actualizar con tu dominio)
-    productionUrl: "https://your-domain.com",
-    iconUrl: "https://your-domain.com/icon.png",
+    productionUrl: "https://altoken.netlify.app/",
+    iconUrl: "https://altoken.netlify.app/icon.png",
     
     // Configuración de hosting
     hosting: {
